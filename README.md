@@ -2,7 +2,7 @@
 file share command line program for macos, linux and windows in dart
 
 # build
-Install ![dart sdk](https://dart.dev/get-dart) first. After dart sdk installed and set correctly, run the following command:
+Install [dart sdk](https://dart.dev/get-dart) first. After dart sdk installed and set correctly, run the following command:
 ```bash
 dart2native main.dart -o fileweb
 ```
