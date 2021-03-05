@@ -18,11 +18,37 @@ void main(List<String> args) async {
     return;
   }
 
-  String ip = await retrieveServerIp();
-  if (ip == null) {
+  List<String> ips = await retrieveServerIps();
+  if (ips.isEmpty) {
     stderr.writeln('error: failed to retrieve ip address');
     exitCode = 3;
     return;
+  }
+
+  String ip = ips[0];
+  if (ips.length > 1) {
+    stdout.writeln('Multiple ip addresses found, please select the index');
+    for (var i = 0; i < ips.length; i++) {
+      stdout.writeln('[${i}]: ${ips[i]}');
+    }
+
+    stdout.write('index: ');
+    while (true) {
+      String _index = stdin.readLineSync();
+      if (int.tryParse(_index) == null) {
+        stderr.writeln('Wrong index.');
+        stdout.write('index: ');
+      } else {
+        int index = int.parse(_index);
+        if (index < 0 || index > ips.length - 1) {
+          stderr.writeln('Out of range.');
+          stdout.write('index: ');
+        } else {
+          ip = ips[index];
+          break;
+        }
+      }
+    }
   }
 
   try {
@@ -60,7 +86,7 @@ Future buildHttpServer(String path, String ip) async {
     connectedCount++;
     stdout.writeln('client count: $connectedCount');
 
-    file.openRead().pipe(request.response).then( (v) {
+    file.openRead().pipe(request.response).then((v) {
       response.close();
 
       connectedCount--;
@@ -70,13 +96,17 @@ Future buildHttpServer(String path, String ip) async {
   }
 }
 
-Future<String> retrieveServerIp() async {
+Future<List<String>> retrieveServerIps() async {
+  List<String> ips = [];
   var list = await NetworkInterface.list(type: InternetAddressType.IPv4);
-  if (list.length > 0 && list.elementAt(0).addresses.length > 0) {
-    return list.elementAt(0).addresses.elementAt(0).address;
+
+  for (NetworkInterface interface in list) {
+    for (var ip in interface.addresses) {
+      ips.add(ip.address);
+    }
   }
 
-  return null;
+  return ips;
 }
 
 String prepareAsset(String path) {
