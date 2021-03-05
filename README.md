@@ -2,11 +2,20 @@
 file share command line program for macos, linux and windows in dart
 
 # build
+
+
 Install [dart sdk](https://dart.dev/get-dart) first. After dart sdk installed and set correctly, run the following command:
 ```bash
+dart pub get
 dart2native main.dart -o fileweb
 ```
 to generate a native executable program.
+
+Or just run the code:
+```bash
+dart pub get
+dart main.dart file_to_share
+```
 
 # how to use
 Open a terminal, run the following command:
