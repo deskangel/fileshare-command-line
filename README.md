@@ -26,4 +26,4 @@ Open a terminal, run the following command:
 to serve the file downloading.
 
 # support
-If you think the app is somewhat useful, consider [buying me a cup of coffee](https://www.paypal.me/minweix) to keep me recharged.
+If you think the app is somewhat useful, consider [buying me a cup of coffee](https://blog.deskangel.com/images/wx_donate.png) to keep me recharged.
